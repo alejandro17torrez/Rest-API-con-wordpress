@@ -61,6 +61,15 @@ function get_custom_post($posts)
     return $data;
 }
 
+function get_news()
+{
+    $noticias = get_noticias();
+    $posts = get_posts();
+    $json [] = [$noticias, $posts];
+    return $json;
+}
+
+
 add_action('rest_api_init', function () {
 
     register_rest_route(API_URL, '/consulta-pages', [
@@ -71,6 +80,11 @@ add_action('rest_api_init', function () {
     register_rest_route(API_URL, '/consulta-posts/(?P<slug>[a-zA-Z0-9-]+)', array(
         'methods'  => 'GET',
         'callback' => 'get_post_test',
+    ));
+
+    register_rest_route(API_URL, 'news', array(
+        'methods' => 'GET',
+        'callback' => 'get_news',
     ));
 
 });
